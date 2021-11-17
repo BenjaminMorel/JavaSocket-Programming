@@ -1,10 +1,13 @@
+package Client;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.net.*;
-import View.MainPage;
-import View.Song;
+import java.util.ArrayList;
+
+import Serveur.AudioPlayer;
+import View.*;
 
 public class ClientForThread {
 
@@ -31,14 +34,22 @@ public class ClientForThread {
              BufferedReader buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
              PrintWriter pout = new PrintWriter(mySocket.getOutputStream(), true);
 
+             InputStream is = new BufferedInputStream(mySocket.getInputStream());
+
+             AudioPlayer player = new AudioPlayer();
+
              int nbSong = Integer.parseInt(buffin.readLine());
 
-             MainPage myPage = new MainPage(title,pout,nbSong+1);
+         //    GUIController myGUI = new GUIController(title,pout,nbSong+1);
+             ArrayList<NewSong> allSong = new ArrayList<>();
              for (int i = 0; i < nbSong; i++) {
-                 Song mySong = new Song(buffin.readLine(), pout);
-                 myPage.addSong(mySong);
+                 NewSong mySong = new NewSong(buffin.readLine(), pout);
+                 allSong.add(mySong);
              }
-             myPage.showButton();
+             System.out.println("hello");
+
+             NewMainPage myPage = new NewMainPage(title,pout,nbSong+1,allSong, player);
+
              while(myPage.GetContinuePlaying()){
 
              String fileName = buffin.readLine();
@@ -47,12 +58,7 @@ public class ClientForThread {
                  }
 
 
-             System.out.println(fileName + " is playing");
-
-             InputStream is = new BufferedInputStream(mySocket.getInputStream());
-
-             AudioPlayer player = new AudioPlayer(is);
-
+             player.setAudioInputStream(is);
 
              player.play();
 

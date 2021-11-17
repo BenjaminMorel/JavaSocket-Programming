@@ -1,32 +1,29 @@
+package Serveur;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class AudioPlayer {
-    // to store current position
+
     Long currentFrame;
     Clip clip;
 
-    // current status of clip
-    String status;
+    String status = "play";
 
     AudioInputStream audioInputStream;
     static String filePath;
 
-    // constructor to initialize streams and clip
-    public AudioPlayer(InputStream is) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        // create AudioInputStream object
-        audioInputStream = AudioSystem.getAudioInputStream(is);
-        //AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+    public AudioPlayer() {
+    }
 
-        // create clip reference
+    public void setAudioInputStream(InputStream is) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        audioInputStream = AudioSystem.getAudioInputStream(is);
+
         clip = AudioSystem.getClip();
 
-        // open audioInputStream to the clip
         clip.open(audioInputStream);
-
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void play() {
@@ -45,6 +42,17 @@ public class AudioPlayer {
         this.currentFrame = this.clip.getMicrosecondPosition();
         clip.stop();
         status = "paused";
+    }
+
+    public void changeStatus(){
+        if(status.equals("paused")) {
+            clip.start();
+
+            status = "play";
+        }else if(status.equals("play")){
+            clip.stop();
+            status = "paused";
+        }
     }
 
     public long getSongLength(){
