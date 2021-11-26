@@ -1,8 +1,13 @@
 package View;
 
 import Serveur.AudioPlayer;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -15,7 +20,7 @@ public class NewMainPage {
     private SongPage mySongPage;
     private AudioPlayer player;
 
-    public NewMainPage(String title, PrintWriter pout, int sizeGridLayout,ArrayList<NewSong> allSong,AudioPlayer player){
+    public NewMainPage(String title, PrintWriter pout, int sizeGridLayout, ArrayList<NewSong> allSong, AudioPlayer player, InputStream is){
         myFrame = new JFrame();
         myFrame.setTitle(title);
         myFrame.setVisible(true);
@@ -29,7 +34,7 @@ public class NewMainPage {
             JButton myJButton = new JButton(songTitle);
             myJButton.addActionListener(e -> {
                 pout.println(songTitle);
-                mySongPage = new SongPage(songTitle,player);
+                mySongPage = new SongPage(songTitle,is);
             });
 
             myFrame.add(myJButton);

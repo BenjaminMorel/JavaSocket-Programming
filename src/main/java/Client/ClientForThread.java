@@ -40,15 +40,13 @@ public class ClientForThread {
 
              int nbSong = Integer.parseInt(buffin.readLine());
 
-         //    GUIController myGUI = new GUIController(title,pout,nbSong+1);
              ArrayList<NewSong> allSong = new ArrayList<>();
              for (int i = 0; i < nbSong; i++) {
                  NewSong mySong = new NewSong(buffin.readLine(), pout);
                  allSong.add(mySong);
              }
-             System.out.println("hello");
 
-             NewMainPage myPage = new NewMainPage(title,pout,nbSong+1,allSong, player);
+             NewMainPage myPage = new NewMainPage(title,pout,nbSong+1,allSong, player,is);
 
              while(myPage.GetContinuePlaying()){
 
@@ -57,13 +55,12 @@ public class ClientForThread {
                      break;
                  }
 
+          //   player.setAudioInputStream(is);
 
-             player.setAudioInputStream(is);
+        //     player.play();
 
-             player.play();
-
-             System.out.println(((int) player.getSongLength() / 1000 + " durée du song"));
-             Thread.sleep((int) player.getSongLength() / 1000);
+             System.out.println(((int) player.getSongLength()  + " durée du song"));
+             Thread.sleep((int) player.getSongLength());
 
              player.pause();
             }
@@ -76,10 +73,6 @@ public class ClientForThread {
          }catch (ConnectException e) {
              e.printStackTrace();
          }catch (IOException | InterruptedException e) {
-             e.printStackTrace();
-         } catch (UnsupportedAudioFileException e) {
-             e.printStackTrace();
-         } catch (LineUnavailableException e) {
              e.printStackTrace();
          }
      }

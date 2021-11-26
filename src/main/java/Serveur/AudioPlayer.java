@@ -29,7 +29,7 @@ public class AudioPlayer {
     public void play() {
         //start the clip
         clip.start();
-
+//        this.currentFrame = this.clip.getMicrosecondPosition();
         status = "play";
     }
 
@@ -39,7 +39,7 @@ public class AudioPlayer {
             System.out.println("audio is already paused");
             return;
         }
-        this.currentFrame = this.clip.getMicrosecondPosition();
+       // this.currentFrame = this.clip.getMicrosecondPosition();
         clip.stop();
         status = "paused";
     }
@@ -49,7 +49,7 @@ public class AudioPlayer {
             clip.start();
 
             status = "play";
-        }else if(status.equals("play")){
+        } else if(status.equals("play")){
             clip.stop();
             status = "paused";
         }
@@ -57,11 +57,18 @@ public class AudioPlayer {
 
     public long getSongLength(){
         return clip.getMicrosecondLength();
+//        return clip.getFrameLength();
     }
+
     // Method to reset audio stream
     public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
         clip.open(audioInputStream);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public long getCurrentFrame(){
+//        return clip.getFramePosition() ;
+        return clip.getMicrosecondPosition();
     }
 }

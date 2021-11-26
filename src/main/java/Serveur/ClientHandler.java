@@ -70,6 +70,7 @@ public class ClientHandler implements Runnable {
                 clientSocketOnServer.close();
                 pout.close();
 
+                // créer boucle while qui termine l'envoie quand on lui dit et qui se remet en mode écoute
 
 
         } catch (SocketException e) {
