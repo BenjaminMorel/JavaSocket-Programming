@@ -20,9 +20,10 @@ public class ClientHandler implements Runnable {
     }
     //overwrite the thread run()
     public void run() {
-
+        System.out.println("-----------------------------------");
         System.out.println("Client Nr " + clientNumber + " is connected");
         System.out.println("Socket is available for connection" + clientSocketOnServer);
+        System.out.println("-----------------------------------");
 
         try{
             PrintWriter pout = new PrintWriter(clientSocketOnServer.getOutputStream(), true);

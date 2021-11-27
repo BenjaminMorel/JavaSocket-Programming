@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public class NewMainPage {
+public class NewMainPage extends JFrame{
 
     private JFrame myFrame;
     private JButton quitButton;
@@ -32,6 +32,9 @@ public class NewMainPage {
         for(int i = 0; i < sizeGridLayout-1; i++){
             String songTitle = allSong.get(i).getSongTitle();
             JButton myJButton = new JButton(songTitle);
+            myJButton.setBorderPainted(true);
+            myJButton.setFocusPainted(false);
+            myJButton.setContentAreaFilled(false);
             myJButton.addActionListener(e -> {
                 pout.println(songTitle);
                 mySongPage = new SongPage(songTitle,is);
@@ -40,8 +43,9 @@ public class NewMainPage {
             myFrame.add(myJButton);
         }
 
-        quitButton = new JButton("quit");
-        quitButton.setBackground(new Color(10,150,10));
+        quitButton = new JButton("Quit");
+        quitButton.setForeground(new Color(255, 255, 255));
+        quitButton.setBackground(new Color(0,0,0));
 
         myFrame.add(quitButton);
 
