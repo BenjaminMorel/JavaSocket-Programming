@@ -37,6 +37,8 @@ public class Spotify_Controller {
         this.pout = new PrintWriter(mySocket.getOutputStream(), true);
         this.is = new BufferedInputStream(mySocket.getInputStream());
         mainPage = new MainPage();
+
+        setAllbuttonNameAndAction();
     }
 
     //Method to create an array list of Jbutton
