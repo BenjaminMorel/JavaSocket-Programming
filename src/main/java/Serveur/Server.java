@@ -10,6 +10,7 @@ import java.util.Enumeration;
 
 public class Server {
 
+    public static ArrayList<ClientModel> connectedClients = new ArrayList<>();
     public static void main(String[] args) {
 
 //        Socket srvSocket = null ;
@@ -21,7 +22,7 @@ public class Server {
         int IdRefreshPage = 0;
         String rootDirectory = "";
         ArrayList<String> path = new ArrayList<>();
-        ArrayList<ClientModel> connectedClients = new ArrayList<>();
+
 
         try {
 
@@ -49,10 +50,8 @@ public class Server {
                 Socket clientSocket = mySkServer.accept();
                 BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter pout = new PrintWriter(clientSocket.getOutputStream(), true);
-                boolean IsRefresed = Boolean.valueOf(buffin.readLine());
-                if (!IsRefresed) {
-                    pout.println(ClientNo + "");
 
+                    pout.println(ClientNo);
                     pout.println("Choose the path where your songs are stored !");
                     int numberOfSong;
                     rootDirectory = buffin.readLine();
@@ -65,18 +64,10 @@ public class Server {
                     ClientModel connectedClient = new ClientModel(ClientNo,clientSocket.getInetAddress().toString(),path,rootDirectory);
                     connectedClients.add(connectedClient);
                     System.out.println("Connection request received");
-                    Thread t = new Thread(new ClientHandler(clientSocket, ClientNo,connectedClients));
+                    Thread t = new Thread(new ClientHandler(clientSocket, ClientNo));
                     ClientNo++;
                     t.start();
-                }else{
-                    IdRefreshPage = Integer.parseInt(buffin.readLine());
 
-//                    ClientModel connectedClient = new ClientModel(ClientNo,clientSocket.getInetAddress().toString(),connectedClients.get(IdRefreshPage).getPath(),connectedClients.get(IdRefreshPage).getRootDirectory());
-//                    connectedClients.add(connectedClient);
-                    System.out.println("Connection request received");
-                    Thread t = new Thread(new ClientHandler(clientSocket, ClientNo,connectedClients));
-                    t.start();
-                }
             }
 
         } catch (SocketException e) {

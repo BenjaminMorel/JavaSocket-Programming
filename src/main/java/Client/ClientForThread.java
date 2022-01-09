@@ -21,9 +21,6 @@ public class ClientForThread {
     public ClientForThread(){
 
     }
-    public ClientForThread(int IDClient){
-        this.IDClient = IDClient;
-    }
 
      public void RunClientForThread(){
          System.out.println("New Client created");
@@ -36,11 +33,7 @@ public class ClientForThread {
              BufferedReader buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
              PrintWriter pout = new PrintWriter(mySocket.getOutputStream(), true);
 
-             //send to the server if your are refreshing the page or not
-                 pout.println("False");
-                 IDClient = Integer.parseInt(buffin.readLine());
-
-
+             IDClient = Integer.parseInt(buffin.readLine());
              System.out.println(buffin.readLine());
              Scanner scan = new Scanner(System.in);
    //          File rootDirectory = new File(scan.nextLine());
@@ -54,14 +47,8 @@ public class ClientForThread {
                  pout.println(allSongs[i].getPath());
              }
 
-
-             nbConnectedClient = Integer.parseInt(buffin.readLine());
-             for(int i = 0; i < nbConnectedClient; i++){
-                 connectedClient.add(new ClientModel(Integer.parseInt(buffin.readLine())));
-             }
-
              //Create the first graphic page with all disponible client
-             ClientChoice myMainPage = new ClientChoice(mySocket,connectedClient,IDClient);
+             ClientChoice myMainPage = new ClientChoice(mySocket,IDClient);
 
              boolean IsPlaying  = true;
 
@@ -100,7 +87,7 @@ public class ClientForThread {
             }
 
             //Create the first graphic page with all disponible client
-            ClientChoice myMainPage = new ClientChoice(mySocket,connectedClient,IDClient);
+            ClientChoice myMainPage = new ClientChoice(mySocket,IDClient);
 
             boolean IsPlaying  = true;
 

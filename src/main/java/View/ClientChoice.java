@@ -21,6 +21,7 @@ public class ClientChoice {
     private Spotify_Controller myProgram;
     private ArrayList<JButton> allClient = new ArrayList<>();
 
+    private int nbConnectedClient;
     private ArrayList<ClientModel> connectedClient = new ArrayList<>();
     private int IDClient;
 
@@ -28,12 +29,17 @@ public class ClientChoice {
     private PrintWriter pout;
     private BufferedReader buffin;
 
-    public ClientChoice(Socket mySocket, ArrayList<ClientModel> connectedClient,int IDClient) throws IOException {
+    public ClientChoice(Socket mySocket,int IDClient) throws IOException {
         this.connectedClient = connectedClient;
         this.IDClient = IDClient;
         this.mySocket = mySocket;
         this.buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         this.pout = new PrintWriter(mySocket.getOutputStream(), true);
+
+        nbConnectedClient = Integer.parseInt(buffin.readLine());
+        for(int i = 0; i < nbConnectedClient; i++){
+            connectedClient.add(new ClientModel(Integer.parseInt(buffin.readLine())));
+        }
 
         myFrame = new JFrame();
         myFrame.setVisible(true);
@@ -45,8 +51,6 @@ public class ClientChoice {
 
         serveurButton = new JButton("Serveur");
         myFrame.add(serveurButton);
-
-
 
         for(int i = 0; i< connectedClient.size(); i++){
             JButton myClientButton;
@@ -77,11 +81,14 @@ public class ClientChoice {
         });
 
         refreshButton.addActionListener(e -> {
-            pout.println(-1 + "");
+            pout.println("-1");
             myFrame.dispose();
 
-            ClientForThread refreshPaged = new ClientForThread(IDClient);
-            refreshPaged.RefreshClientForThread();
+            try {
+                ClientChoice myMainPage = new ClientChoice(mySocket,IDClient);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
 
         });
 
@@ -100,8 +107,6 @@ public class ClientChoice {
                 }
             });
         }
-
-
 
 
     }
