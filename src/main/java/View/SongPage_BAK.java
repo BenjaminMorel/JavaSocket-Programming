@@ -8,13 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
-public class SongPage extends JFrame {
+public class SongPage_BAK extends JFrame {
     private JFrame myFrame;
     private JSlider time_Slider, volume_Slider;
     private JLabel songName, label_Image;
@@ -27,8 +24,7 @@ public class SongPage extends JFrame {
     private Timer myTimer;
     private boolean IsSliderSizeCorrect = false;
 
-    public SongPage(String name, Socket mySocket) throws IOException {
-
+    public SongPage_BAK(String name, Socket mySocket) throws IOException {
         //Creation of the UI Objects
         myFrame = new JFrame();
         time_Slider = new JSlider(0,0,0);
@@ -62,9 +58,9 @@ public class SongPage extends JFrame {
         //Creation of an audioPlayer each time we select a song from the main page
         System.out.println(mySocket.getReceiveBufferSize());
      //   InputStream is = new BufferedInputStream(mySocket.getInputStream());
-//        player = new AudioPlayer();
-//        try {
-//            player.setAudioInputStream(mySocket);
+   //     player = new AudioPlayer();
+   //     try {
+   //         player.setAudioInputStream(mySocket);
 //        } catch (IOException ioException) {
 //            ioException.printStackTrace();
 //        } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
@@ -99,6 +95,7 @@ public class SongPage extends JFrame {
         time_Slider.setOrientation(JScrollBar.HORIZONTAL);
         time_Slider.setVisible(true);
         changeStateButton.addActionListener(e -> changeSongStatus());
+        backButton.addActionListener(e -> closeSongFrame());
 
         //Setup of the layout
         myFrame.setLayout(new FlowLayout());

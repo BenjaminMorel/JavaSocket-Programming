@@ -3,9 +3,11 @@ package Serveur;
 import jdk.jfr.SettingControl;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Socket;
 
 public class AudioPlayer {
 
@@ -16,17 +18,20 @@ public class AudioPlayer {
     AudioInputStream audioInputStream;
     static String filePath;
 
-    public AudioPlayer() {
-    }
-
-    public void setAudioInputStream(InputStream is) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public AudioPlayer(InputStream is) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        // create AudioInputStream object
         audioInputStream = AudioSystem.getAudioInputStream(is);
+        //AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 
+
+        // create clip reference
         clip = AudioSystem.getClip();
 
+        // open audioInputStream to the clip
         clip.open(audioInputStream);
-    }
 
+        clip.loop(0);
+    }
     public void play() {
         //start the clip
         clip.start();

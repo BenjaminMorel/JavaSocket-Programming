@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable {
             File RootDirectory = new File("D:\\Spotify");
             File[] allSong = RootDirectory.listFiles();
 
+            System.out.println("Sending number of song");
             pout.println(allSong.length);
 
             for (File song : allSong) {
@@ -41,16 +42,17 @@ public class ClientHandler implements Runnable {
             while(IsStillRunning) {
                 System.out.println("Waiting for song name");
                 String fileName = buffin.readLine();
-                if(fileName.equals("quit")){
-                    pout.println(fileName);
-                    IsStillRunning = false;
-                    break;
-                }
+                System.out.println("Song name is : " + fileName);
+      //          pout.println(fileName);
+//                if(fileName.equals("quit")){
+//                    pout.println(fileName);
+//                    IsStillRunning = false;
+//                    break;
+//                }
 
                 File songToPlay = new File(RootDirectory + "\\" + fileName);
 
                 long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
-                pout.println(songToPlay.getName());
 
                 byte[] myByteArray = new byte[(int) size];
 
@@ -63,8 +65,12 @@ public class ClientHandler implements Runnable {
 
                 os = clientSocketOnServer.getOutputStream();
 
+                System.out.println("Server will send the song");
+                System.out.println(clientSocketOnServer.getOutputStream());
+                System.out.println(myByteArray.length + " longeur song");
                 os.write(myByteArray, 0, myByteArray.length);
                 os.flush();
+                System.out.println("SERVER HAS SEND THE SONG");
                 }
 
                 System.out.println("Now dying client " + clientNumber);

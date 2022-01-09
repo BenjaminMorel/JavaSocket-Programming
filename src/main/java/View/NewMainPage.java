@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class NewMainPage extends JFrame{
@@ -18,9 +19,8 @@ public class NewMainPage extends JFrame{
     private ArrayList<JButton> allSong = new ArrayList<>();
     private boolean continuePlaying = true;
     private SongPage mySongPage;
-    private AudioPlayer player;
 
-    public NewMainPage(String title, PrintWriter pout, int sizeGridLayout, ArrayList<NewSong> allSong, AudioPlayer player, InputStream is){
+    public NewMainPage(String title, PrintWriter pout, int sizeGridLayout, ArrayList<NewSong> allSong, Socket mySocket){
         myFrame = new JFrame();
         myFrame.setTitle(title);
         myFrame.setVisible(true);
@@ -37,7 +37,11 @@ public class NewMainPage extends JFrame{
             myJButton.setContentAreaFilled(false);
             myJButton.addActionListener(e -> {
                 pout.println(songTitle);
-                mySongPage = new SongPage(songTitle,is);
+                try {
+                    mySongPage = new SongPage(songTitle,mySocket);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             });
 
             myFrame.add(myJButton);
