@@ -1,15 +1,17 @@
+package Serveur;
+
 import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 
-public class ServeurMultiThread {
+public class Server {
 
     public static void main(String[] args) {
 
-        Socket srvSocket = null ;
-        InetAddress localAddress = null;
+//        Socket srvSocket = null ;
         ServerSocket mySkServer;
-        PrintWriter pout;
+        InetAddress localAddress = null;
+//        PrintWriter pout;
         String interfaceName = "lo";
         int ClientNo = 1;
 
@@ -17,6 +19,7 @@ public class ServeurMultiThread {
 
             NetworkInterface ni = NetworkInterface.getByName(interfaceName);
             Enumeration<InetAddress> inetAddresses = ni.getInetAddresses();
+
             while (inetAddresses.hasMoreElements()) {
                 InetAddress ia = inetAddresses.nextElement();
 
@@ -29,9 +32,9 @@ public class ServeurMultiThread {
             }
 
             mySkServer = new ServerSocket(45000, 10, localAddress);
-            System.out.println("Default Timeout :" + mySkServer.getSoTimeout());
-            System.out.println("Used IpAddress :" + mySkServer.getInetAddress());
-            System.out.println("Listening to Port :" + mySkServer.getLocalPort());
+//            System.out.println("Default Timeout: " + mySkServer.getSoTimeout());
+//            System.out.println("Used IpAddress: " + mySkServer.getInetAddress());
+            System.out.println("Listening to Port: " + mySkServer.getLocalPort());
 
             while(true) {
                 Socket clientSocket = mySkServer.accept();
@@ -39,16 +42,13 @@ public class ServeurMultiThread {
                 Thread t = new Thread(new ClientHandler(clientSocket, ClientNo));
                 ClientNo++;
                 t.start();
-
             }
 
-        }catch (SocketException e) {
+        } catch (SocketException e) {
             System.out.println("Connection Timed out");
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }

@@ -1,61 +1,48 @@
 package View;
 
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
+import java.net.Socket;
 import java.util.ArrayList;
 
-public class MainPage {
+public class MainPage extends JFrame{
 
-    JFrame myFrame;
-    JButton quitButton;
-    ArrayList<Song> allSong = new ArrayList<>();
-    int songAlreadyShow = 0;
-    boolean continuePlaying = true;
+    private JFrame myFrame;
+    private JButton quitButton;
+    private ArrayList<JButton> allSongButton;
 
-    public MainPage(String title, PrintWriter pout,int sizeGridLayout){
+
+    public MainPage(){
         myFrame = new JFrame();
-        myFrame.setTitle(title);
         myFrame.setVisible(true);
         myFrame.setSize(500,500);
         myFrame.setLocationRelativeTo(null);
-        myFrame.setLayout(new GridLayout(sizeGridLayout,1));
+
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        quitButton = new JButton("quit");
-        quitButton.setBackground(new Color(10,150,10));
-
-        quitButton.addActionListener(e -> {
-                continuePlaying = false;
-                myFrame.dispose();
-                pout.println("quit");
-        });
     }
 
-    public void addSong(Song newSong){
-        allSong.add(newSong);
-    }
+    //Method to receive an array list of Jbutton and add each one in the page
+    public void setAllButton(ArrayList<JButton> allSongButton){
 
-    public void showButton(){
-        for(Song song : allSong){
-            myFrame.add(song.GetSongInfo());
+        this.allSongButton = allSongButton;
+
+        //Setting the layout to number of song +1 for the quit button
+        myFrame.setLayout(new GridLayout(allSongButton.size()+1,1));
+
+        for(int i = 0; i < allSongButton.size(); i++){
+            myFrame.add(allSongButton.get(i));
         }
+
+        quitButton = new JButton("Quit");
+        quitButton.addActionListener(e -> System.exit(0));
+        quitButton.setForeground(new Color(255, 255, 255));
+        quitButton.setBackground(new Color(0,0,0));
+
         myFrame.add(quitButton);
     }
-
-    public String songName(){
-        return null;
-    }
-
-    public boolean GetContinuePlaying(){
-        return continuePlaying;
-    }
-    public ArrayList<Song> GetallSong(){
-        return allSong;
-    }
-
 
 }
