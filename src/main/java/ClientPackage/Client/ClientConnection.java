@@ -1,4 +1,4 @@
-package Client;
+package ClientPackage.Client;
 
 class Client1 {
     public static void main(String[] args) {

@@ -1,20 +1,15 @@
-package View;
+package ClientPackage.View;
 
-import Serveur.AudioPlayer;
+import ClientPackage.SpotifyController.AudioPlayer;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
-public class SongPage extends JFrame {
+public class SongPage_BAK extends JFrame {
     private JFrame myFrame;
     private JSlider time_Slider, volume_Slider;
     private JLabel songName, label_Image;
@@ -27,8 +22,7 @@ public class SongPage extends JFrame {
     private Timer myTimer;
     private boolean IsSliderSizeCorrect = false;
 
-    public SongPage(String name, Socket mySocket) throws IOException {
-
+    public SongPage_BAK(String name, Socket mySocket) throws IOException {
         //Creation of the UI Objects
         myFrame = new JFrame();
         time_Slider = new JSlider(0,0,0);
@@ -39,11 +33,11 @@ public class SongPage extends JFrame {
 //        myFrame.setUndecorated(true);
 
         //Adding Image Icons
-        play_Image = new ImageIcon("src/main/java/Images/play.png");
-        pause_Image = new ImageIcon("src/main/java/Images/pause.png");
-        next_Image = new ImageIcon("src/main/java/Images/next.png");
-        previous_Image = new ImageIcon("src/main/java/Images/previous.png");
-        music_Image = new ImageIcon("src/main/java/Images/music.jpg");
+        play_Image = new ImageIcon("src/main/java/ClientPackage.Images/play.png");
+        pause_Image = new ImageIcon("src/main/java/ClientPackage.Images/pause.png");
+        next_Image = new ImageIcon("src/main/java/ClientPackage.Images/next.png");
+        previous_Image = new ImageIcon("src/main/java/ClientPackage.Images/previous.png");
+        music_Image = new ImageIcon("src/main/java/ClientPackage.Images/music.jpg");
         label_Image = new JLabel(music_Image);
 
         //Creation of the buttons
@@ -62,9 +56,9 @@ public class SongPage extends JFrame {
         //Creation of an audioPlayer each time we select a song from the main page
         System.out.println(mySocket.getReceiveBufferSize());
      //   InputStream is = new BufferedInputStream(mySocket.getInputStream());
-//        player = new AudioPlayer();
-//        try {
-//            player.setAudioInputStream(mySocket);
+   //     player = new AudioPlayer();
+   //     try {
+   //         player.setAudioInputStream(mySocket);
 //        } catch (IOException ioException) {
 //            ioException.printStackTrace();
 //        } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
@@ -99,6 +93,7 @@ public class SongPage extends JFrame {
         time_Slider.setOrientation(JScrollBar.HORIZONTAL);
         time_Slider.setVisible(true);
         changeStateButton.addActionListener(e -> changeSongStatus());
+        backButton.addActionListener(e -> closeSongFrame());
 
         //Setup of the layout
         myFrame.setLayout(new FlowLayout());

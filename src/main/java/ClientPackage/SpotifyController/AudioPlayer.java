@@ -1,13 +1,9 @@
-package Serveur;
-
-import jdk.jfr.SettingControl;
+package ClientPackage.SpotifyController;
 
 import javax.sound.sampled.*;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
 
 public class AudioPlayer {
 

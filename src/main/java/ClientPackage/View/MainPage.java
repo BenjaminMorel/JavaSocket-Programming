@@ -1,11 +1,7 @@
-package View;
+package ClientPackage.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class MainPage extends JFrame{

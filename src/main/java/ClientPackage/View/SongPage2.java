@@ -1,6 +1,6 @@
-package View;
+package ClientPackage.View;
 
-import Serveur.AudioPlayer;
+import ClientPackage.SpotifyController.AudioPlayer;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
-import java.time.temporal.JulianFields;
 
 public class SongPage2 {
 
@@ -95,11 +93,11 @@ public class SongPage2 {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create all the icon for the graphics part
-        play_Image = new ImageIcon("src/main/java/Images/play.png");
-        pause_Image = new ImageIcon("src/main/java/Images/pause.png");
-        next_Image = new ImageIcon("src/main/java/Images/next.png");
-        previous_Image = new ImageIcon("src/main/java/Images/previous.png");
-        music_Image = new ImageIcon("src/main/java/Images/music.jpg");
+        play_Image = new ImageIcon("src/main/java/ClientPackage.Images/play.png");
+        pause_Image = new ImageIcon("src/main/java/ClientPackage.Images/pause.png");
+        next_Image = new ImageIcon("src/main/java/ClientPackage.Images/next.png");
+        previous_Image = new ImageIcon("src/main/java/ClientPackage.Images/previous.png");
+        music_Image = new ImageIcon("src/main/java/ClientPackage.Images/music.jpg");
         label_Image = new JLabel(music_Image);
 
         //Create JButton to interact with the page

@@ -1,4 +1,4 @@
-package View;
+package ClientPackage.View;
 import java.io.PrintWriter;
 
 public class NewSong {
