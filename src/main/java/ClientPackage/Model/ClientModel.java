@@ -1,25 +1,26 @@
 package ClientPackage.Model;
 
-import java.util.ArrayList;
-
 public class ClientModel {
 
-    private String IPclient;
+    private String IPClient;
     private String clientName;
     private boolean IsConnected;
 
-    public ClientModel(String clientName, String IPclient,Boolean isConnected){
-        this.IPclient = IPclient;
+    public ClientModel(String clientName, String IPClient,Boolean isConnected){
+        this.IPClient = IPClient;
         this.clientName = clientName;
         this.IsConnected = isConnected;
+    }
+
+    public ClientModel() {
     }
 
     public boolean getIsConnected() {
         return IsConnected;
     }
 
-    public void setConnected(boolean connected) {
-        IsConnected = connected;
+    public void setConnected(boolean IsConnected) {
+        this.IsConnected = IsConnected;
     }
 
     public void setClientName(String clientName) {
@@ -30,12 +31,12 @@ public class ClientModel {
         return clientName;
     }
 
-    public void setIPclient(String IPclient) {
-        this.IPclient = IPclient;
+    public void setIPClient(String IPClient) {
+        this.IPClient = IPClient;
     }
 
-    public String getIPclient() {
-        return IPclient;
+    public String getIPClient() {
+        return IPClient;
     }
 
 }

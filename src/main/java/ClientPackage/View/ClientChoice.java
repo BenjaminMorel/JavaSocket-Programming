@@ -25,13 +25,13 @@ public class ClientChoice {
     private PrintWriter pout;
     private BufferedReader buffin;
 
-    public ClientChoice(Socket mySocket,int index) throws IOException {
+    public ClientChoice(Socket mySocket, int index) throws IOException {
         this.connectedClient = connectedClient;
+        this.index = index;
         this.mySocket = mySocket;
         this.buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         this.pout = new PrintWriter(mySocket.getOutputStream(), true);
 
-        index = this.index;
         sizeClientList = Integer.parseInt(buffin.readLine());
         for(int i = 0; i < sizeClientList; i++){
             boolean IsConnected = Boolean.valueOf(buffin.readLine());
@@ -52,7 +52,7 @@ public class ClientChoice {
         myFrame.add(musicButton);
 
         for(int i = 0; i < connectedClient.size(); i++){
-            JLabel  myLabel = new JLabel(connectedClient.get(i).getclientName() + " | " + connectedClient.get(i).getIPclient());
+            JLabel  myLabel = new JLabel(connectedClient.get(i).getclientName() + " | " + connectedClient.get(i).getIPClient());
             if(i != index){
                 if(connectedClient.get(i).getIsConnected()){
                     myLabel.setBackground(Color.GREEN);

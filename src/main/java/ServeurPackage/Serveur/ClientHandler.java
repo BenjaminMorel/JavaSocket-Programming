@@ -45,7 +45,7 @@ public class ClientHandler implements Runnable {
                 for (int i = 0; i < connectedClients.size(); i++) {
                     pout.println(connectedClients.get(i).getIsConnected());
                     pout.println(connectedClients.get(i).getclientName());
-                    pout.println(connectedClients.get(i).getIPclient());
+                    pout.println(connectedClients.get(i).getIPClient());
                 }
 
                 int wantedClient = Integer.parseInt(buffin.readLine());
