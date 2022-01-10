@@ -47,6 +47,7 @@ public class Server {
 
             //appelle une methode qui va load le JSON et créer l'array list de modelCLient
             Read();
+            disconnectClients();
 
 
             while(true) {
@@ -57,13 +58,14 @@ public class Server {
                    // pout.println(ClientNo);
                     pout.println("Write down your name !");
                     String clientName = buffin.readLine();
+                System.out.println("Received name");
                     int index = 0;
 
                     String clientIP = clientSocket.getInetAddress().toString();
                     for(int i = 0; i< connectedClients.size(); i++){
-                        if(connectedClients.get(i).getIPClient().equals(clientIP)){
+                        if(connectedClients.get(i).getIPClient().equals(clientIP) && connectedClients.get(i).getclientName().equals(clientName)){
                             System.out.println("Client already on the list");
-                            connectedClients.get(i).setClientName(clientName);
+                      //      connectedClients.get(i).setClientName(clientName);
                             connectedClients.get(i).setConnected(true);
                             IsOnList = true;
                             index = i;
@@ -77,9 +79,10 @@ public class Server {
                         //Appelle method save
                         Save();
                         Read();
-                        index = connectedClients.size();
+                        index = connectedClients.size()-1;
                     }
-
+                    System.out.println("client index is :" + index);
+                    pout.println(index);
                     System.out.println("Connection request received");
                     Thread t = new Thread(new ClientHandler(clientSocket,index));
                     t.start();

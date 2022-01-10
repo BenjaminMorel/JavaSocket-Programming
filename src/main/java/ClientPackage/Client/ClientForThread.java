@@ -32,7 +32,9 @@ public class ClientForThread {
              System.out.println(buffin.readLine());
              Scanner scan = new Scanner(System.in);
              String name = scan.nextLine();
+
              pout.println(name);
+             System.out.println("name is send");
 
              int index = Integer.parseInt(buffin.readLine());
              //Create the first graphic page with all disponible client

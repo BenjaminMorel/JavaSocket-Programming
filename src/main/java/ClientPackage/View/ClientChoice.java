@@ -26,7 +26,6 @@ public class ClientChoice {
     private BufferedReader buffin;
 
     public ClientChoice(Socket mySocket, int index) throws IOException {
-        this.connectedClient = connectedClient;
         this.index = index;
         this.mySocket = mySocket;
         this.buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
@@ -53,6 +52,7 @@ public class ClientChoice {
 
         for(int i = 0; i < connectedClient.size(); i++){
             JLabel  myLabel = new JLabel(connectedClient.get(i).getclientName() + " | " + connectedClient.get(i).getIPClient());
+            myLabel.setOpaque(true);
             if(i != index){
                 if(connectedClient.get(i).getIsConnected()){
                     myLabel.setBackground(Color.GREEN);
@@ -61,6 +61,7 @@ public class ClientChoice {
                 }
             }else{
                 myLabel.setBackground(Color.BLUE);
+
             }
             myFrame.add(myLabel);
         }

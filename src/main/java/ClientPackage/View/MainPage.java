@@ -34,7 +34,7 @@ public class MainPage extends JFrame{
         }
 
         quitButton = new JButton("Quit");
-        quitButton.addActionListener(e -> System.exit(0));
+        quitButton.addActionListener(e -> myFrame.dispose());
         quitButton.setForeground(new Color(255, 255, 255));
         quitButton.setBackground(new Color(0,0,0));
 

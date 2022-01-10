@@ -4,23 +4,23 @@ public class ClientModel {
 
     private String IPClient;
     private String clientName;
-    private boolean IsConnected;
+    private boolean isConnected;
 
     public ClientModel(String clientName, String IPClient,Boolean isConnected){
         this.IPClient = IPClient;
         this.clientName = clientName;
-        this.IsConnected = isConnected;
+        this.isConnected = isConnected;
     }
 
     public ClientModel() {
     }
 
     public boolean getIsConnected() {
-        return IsConnected;
+        return isConnected;
     }
 
     public void setConnected(boolean IsConnected) {
-        this.IsConnected = IsConnected;
+        this.isConnected = IsConnected;
     }
 
     public void setClientName(String clientName) {

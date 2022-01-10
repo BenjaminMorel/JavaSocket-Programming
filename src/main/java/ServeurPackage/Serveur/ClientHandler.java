@@ -34,7 +34,6 @@ public class ClientHandler implements Runnable {
             BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocketOnServer.getInputStream()));
 
             //the server send the index of the client inside the array list
-            pout.println(index);
 
             while(wantedClient == -2 ) {
 
@@ -103,8 +102,15 @@ public class ClientHandler implements Runnable {
             }
 
             } catch(SocketException e){
-                System.out.println("Connection Timed out");
-            } catch(IOException e){
+                connectedClients.get(index).setConnected(false);
+                Server.Save();
+            try {
+                Server.Read();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+        } catch(IOException e){
                 e.printStackTrace();
             }
 
