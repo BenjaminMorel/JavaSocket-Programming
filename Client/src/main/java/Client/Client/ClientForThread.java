@@ -1,12 +1,12 @@
-package ClientPackage.Client;
+package Client.Client;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ClientPackage.Model.ClientModel;
-import ClientPackage.View.*;
+import Client.Model.ClientModel;
+import Client.View.*;
 
 public class ClientForThread {
 

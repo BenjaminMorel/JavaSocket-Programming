@@ -65,7 +65,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ServeurPackage.Serveur/Server</mainClass>
+                            <mainClass>ServeurPackage.Server/Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

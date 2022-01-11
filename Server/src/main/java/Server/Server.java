@@ -1,7 +1,7 @@
-package Serveur;
+package Server;
 
-import Serveur.Storable.JSONStorage;
-import Serveur.Log.ServerLogging;
+import Server.Storable.JSONStorage;
+import Server.Log.ServerLogging;
 
 import java.io.*;
 import java.net.*;
@@ -23,7 +23,6 @@ public class Server {
         ServerLogging myLogger = new ServerLogging();
 
         try {
-
             NetworkInterface ni = NetworkInterface.getByName(interfaceName);
             Enumeration<InetAddress> inetAddresses = ni.getInetAddresses();
 
@@ -43,41 +42,42 @@ public class Server {
             //Ajouter log serveur UP
             System.out.println("Listening to Port: " + mySkServer.getLocalPort());
 
-
-            //appelle une methode qui va load le JSON et créer l'array list de modelCLient
+            //Load JSON File and create array list of ClientModel
             Read();
-            disconnectClients();
 
+            //The clients are disconnected when they close their application, but if the server crashes the clients remain with "connected" status, to avoid that we disconnect them all at first
+            disconnectClients();
 
             while(true) {
                 Socket clientSocket = mySkServer.accept();
                 BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter pout = new PrintWriter(clientSocket.getOutputStream(), true);
                 boolean IsOnList = false;
-                   // pout.println(ClientNo);
                     pout.println("Write down your name !");
                     String clientName = buffin.readLine();
                     int index = 0;
 
                     String clientIP = clientSocket.getInetAddress().toString();
-                    for(int i = 0; i< connectedClients.size(); i++){
-                        if(connectedClients.get(i).getIPClient().equals(clientIP)){
+                    for (int i = 0; i< connectedClients.size(); i++){
+                        if (connectedClients.get(i).getIPClient().equals(clientIP)){
                             connectedClients.get(i).setClientName(clientName);
                             connectedClients.get(i).setConnected(true);
                             IsOnList = true;
                             index = i;
-
                             break;
                         }
                     }
 
                     if(!IsOnList){
+                        //Add new ClientModel to the array list
                         connectedClients.add(new ClientModel(clientName,clientIP,true));
-                        //Appelle method save
+                        //Save clients on JSON File
                         Save();
+                        //Load JSON File to get a refresh of the array list of ClientModel
                         Read();
                         index = connectedClients.size()-1;
                     }
+
                     pout.println(index);
                     myLogger.getMyLogger().log(Level.INFO, connectedClients.get(index).getclientName() + " has succesfully connected", connectedClients.get(index).getclientName() + " has succesfully connected");
                     Thread t = new Thread(new ClientHandler(clientSocket,index));
@@ -85,12 +85,9 @@ public class Server {
                     displayCurrentUsers();
             }
 
-            //Disconnect all clients
-
-            // écrire dans le JSON
-
         } catch (SocketException e) {
             System.out.println("Connection Timed out");
+            //Severe log for exception
             myLogger.getMyLogger().log(Level.SEVERE,"ERROR SEVERE",e);
 
         } catch (IOException e) {
@@ -98,23 +95,33 @@ public class Server {
         }
     }
 
+    /**
+     * Load the JSON File to get the list of all connected clients and set the static variable
+     * @throws IOException
+     */
     public static void Read() throws IOException {
-        //Get the connected clients and set the static variable
         connectedClients = storage.read(rootFile);
     }
 
+    /**
+     * Save all connected clients into the JSON file
+     */
     public static void Save(){
-        //Save all connected clients into the file
         storage.Write(rootFile, connectedClients);
     }
 
+    /**
+     * Put all clients "connected" status on false
+     */
     public static void disconnectClients() {
-        //Put all clients connected on false
         for (int i = 0; i < connectedClients.size(); i++) {
             connectedClients.get(i).setConnected(false);
         }
     }
 
+    /**
+     * Method to display the list of all connected users currently
+     */
     public static void displayCurrentUsers(){
         for(ClientModel model : connectedClients){
             if(model.getIsConnected()) {
@@ -122,5 +129,4 @@ public class Server {
             }
         }
     }
-
 }

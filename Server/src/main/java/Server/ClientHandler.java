@@ -1,6 +1,6 @@
-package Serveur;
+package Server;
 
-import Serveur.Log.ServerLogging;
+import Server.Log.ServerLogging;
 
 import java.io.*;
 import java.net.*;
@@ -17,39 +17,49 @@ public class ClientHandler implements Runnable {
     private int wantedClient = -2;
     private int index;
     private ServerLogging myLogger;
-    //Constructor
+
+    /**
+     * Constructor of the ClientHandler Class
+     * @param clientSocketOnServer
+     * @param index
+     * @throws IOException
+     */
     public ClientHandler(Socket clientSocketOnServer,int index) throws IOException {
         this.clientSocketOnServer = clientSocketOnServer;
         this.connectedClients = Server.connectedClients;
         this.index = index;
          myLogger = new ServerLogging();
-
     }
-    //overwrite the thread run()
+
+    /**
+     * Overwrite the thread run()
+     */
+    @Override
     public void run() {
 
         try {
             PrintWriter pout = new PrintWriter(clientSocketOnServer.getOutputStream(), true);
             BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocketOnServer.getInputStream()));
 
-            //the serveur send the number of connected client to the client
-
+            //The server sends the number of connected client to the client
             while(wantedClient == -2 ) {
-
                 pout.println(connectedClients.size());
-                //The server send every client information to the other client
+
+                //The server sends every client information to the other client
                 for (int i = 0; i < connectedClients.size(); i++) {
                     pout.println(connectedClients.get(i).getIsConnected());
                     pout.println(connectedClients.get(i).getclientName());
                     pout.println(connectedClients.get(i).getIPClient());
                 }
+
                 int wantedClient = Integer.parseInt(buffin.readLine());
+
                 if (wantedClient == -1) {
                     updateConnectedClientValue();
                     wantedClient = -2;
                 } else {
                     System.out.println("Enter the page song");
-
+                        //Path of te file where our musics are stored
                         File RootDirectory = new File("/ServerSocket/MyMusic");
                         File[] allSong = RootDirectory.listFiles();
 
@@ -76,13 +86,11 @@ public class ClientHandler implements Runnable {
 
                             BufferedInputStream inputBuffer = new BufferedInputStream(new FileInputStream(songToPlay));
 
-
                             inputBuffer.read(myByteArray, 0, myByteArray.length);
 
                             OutputStream os = null;
 
                             os = clientSocketOnServer.getOutputStream();
-
                             os.write(myByteArray, 0, myByteArray.length);
                             os.flush();
                         }
@@ -106,10 +114,11 @@ public class ClientHandler implements Runnable {
         } catch(IOException e){
                 e.printStackTrace();
             }
-
-
     }
 
+    /**
+     * Update the array list when refreshing the page
+     */
     public void updateConnectedClientValue(){
         connectedClients = Server.connectedClients;
     }

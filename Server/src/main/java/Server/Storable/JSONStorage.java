@@ -1,6 +1,6 @@
-package Serveur.Storable;
+package Server.Storable;
 
-import Serveur.ClientModel;
+import Server.ClientModel;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,12 @@ import java.util.Arrays;
 
 public class JSONStorage {
 
+    /**
+     * Load the JSON File to get the list of all connected clients
+     * @param myFile JSON File to read
+     * @return Array list of ClientModel
+     * @throws IOException
+     */
     public ArrayList<ClientModel> read (File myFile) throws IOException {
 
         //Verify if the file already exists
@@ -40,6 +46,11 @@ public class JSONStorage {
         return connectedClients;
     }
 
+    /**
+     * Save all connected clients ClientModel into the JSON file
+     * @param myFile JSON File to overwrite
+     * @param connectedClients list of connected clients ClientModel
+     */
     public void Write(File myFile, ArrayList<ClientModel> connectedClients) {
 
         ObjectMapper mapper = new ObjectMapper();

@@ -1,7 +1,7 @@
-package ClientPackage.SpotifyController;
+package Client.SpotifyController;
 
-import ClientPackage.View.MainPage;
-import ClientPackage.View.SongPage2;
+import Client.View.MainPage;
+import Client.View.SongPage2;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -12,18 +12,18 @@ import java.util.ArrayList;
 
 public class Spotify_Controller {
 
-    // Communication avec le serveur
+    //Used to communicate with the server
     private BufferedReader buffin;
     private PrintWriter pout;
     private InputStream is;
     private Socket mySocket;
     private AudioPlayer player;
 
-    //partie visuel
+    //GUI Part
     private MainPage mainPage;
     private SongPage2 songPage;
 
-    //Data
+    //Data elements
     private int numberOfSong;
     private int actualSong;
     private ArrayList<JButton> allSongButton;
@@ -38,9 +38,12 @@ public class Spotify_Controller {
         setAllbuttonNameAndAction();
     }
 
-    //Method to create an array list of Jbutton
-    //Set the action on the JButton to send the name of the song to the server
-    //Then send this array list to the view MainPage
+    /**
+     * Method to create an array list of JButton
+     * Set the action on the JButton to send the name of the song to the server
+     * Then send this array list to the view MainPage
+     * @throws IOException
+     */
     public void setAllbuttonNameAndAction() throws IOException {
         numberOfSong = Integer.parseInt(buffin.readLine());
         allSongButton = new ArrayList<>();
@@ -64,6 +67,14 @@ public class Spotify_Controller {
         mainPage.setAllButton(allSongButton);
     }
 
+    /**
+     * Set up actions for the different buttons of our page
+     * @param songButton Button we want to put an action on
+     * @param position Position of the button (for each music)
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void actionForTheButton(JButton songButton,int position) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         pout.println(songButton.getText());
         actualSong = position;
@@ -95,7 +106,13 @@ public class Spotify_Controller {
         });
     }
 
-
+    /**
+     * Set up for the 2 JButtons Next & Previous
+     * @param positionNextSong
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void nextAndPreviousButton(int positionNextSong) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         AudioPlayer player = songPage.getPlayer();
         JFrame songpageFrame = songPage.getMyFrame();

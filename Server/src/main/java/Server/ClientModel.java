@@ -1,4 +1,4 @@
-package ClientPackage.Model;
+package Server;
 
 public class ClientModel {
 
@@ -12,6 +12,9 @@ public class ClientModel {
         this.isConnected = isConnected;
     }
 
+    /**
+     * Default constructor used for JSON File reading/writing
+     */
     public ClientModel() {
     }
 

@@ -1,6 +1,6 @@
-package ClientPackage.View;
+package Client.View;
 
-import ClientPackage.SpotifyController.AudioPlayer;
+import Client.SpotifyController.AudioPlayer;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
