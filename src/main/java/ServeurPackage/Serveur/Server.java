@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
@@ -58,13 +59,11 @@ public class Server {
                    // pout.println(ClientNo);
                     pout.println("Write down your name !");
                     String clientName = buffin.readLine();
-                System.out.println("Received name");
                     int index = 0;
 
                     String clientIP = clientSocket.getInetAddress().toString();
                     for(int i = 0; i< connectedClients.size(); i++){
                         if(connectedClients.get(i).getIPClient().equals(clientIP) && connectedClients.get(i).getclientName().equals(clientName)){
-                            System.out.println("Client already on the list");
                       //      connectedClients.get(i).setClientName(clientName);
                             connectedClients.get(i).setConnected(true);
                             IsOnList = true;
@@ -81,11 +80,11 @@ public class Server {
                         Read();
                         index = connectedClients.size()-1;
                     }
-                    System.out.println("client index is :" + index);
                     pout.println(index);
-                    System.out.println("Connection request received");
+                    myLogger.getMyLogger().log(Level.INFO, connectedClients.get(index).getclientName() + " has succesfully connected", connectedClients.get(index).getclientName() + " has succesfully connected");
                     Thread t = new Thread(new ClientHandler(clientSocket,index));
                     t.start();
+                    displayCurrentUsers();
             }
 
             //Disconnect all clients
@@ -94,6 +93,7 @@ public class Server {
 
         } catch (SocketException e) {
             System.out.println("Connection Timed out");
+            myLogger.getMyLogger().log(Level.SEVERE,"ERROR SEVERE",e);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,6 +114,14 @@ public class Server {
         //Put all clients connected on false
         for (int i = 0; i < connectedClients.size(); i++) {
             connectedClients.get(i).setConnected(false);
+        }
+    }
+
+    public static void displayCurrentUsers(){
+        for(ClientModel model : connectedClients){
+            if(model.getIsConnected()) {
+                System.out.println(model.getclientName() + " is connected with ip : " + model.getIPClient());
+            }
         }
     }
 

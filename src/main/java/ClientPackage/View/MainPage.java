@@ -2,6 +2,9 @@ package ClientPackage.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class MainPage extends JFrame{
@@ -9,13 +12,19 @@ public class MainPage extends JFrame{
     private JFrame myFrame;
     private JButton quitButton;
     private ArrayList<JButton> allSongButton;
+    private PrintWriter pout;
+    private Socket mySocket;
+    private int index;
 
 
-    public MainPage(){
+    public MainPage(Socket mySocket,int index) throws IOException {
         myFrame = new JFrame();
         myFrame.setVisible(true);
         myFrame.setSize(500,500);
         myFrame.setLocationRelativeTo(null);
+        this.mySocket = mySocket;
+        this.index = index;
+        pout = new PrintWriter(mySocket.getOutputStream(), true);
 
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -34,7 +43,16 @@ public class MainPage extends JFrame{
         }
 
         quitButton = new JButton("Quit");
-        quitButton.addActionListener(e -> myFrame.dispose());
+
+        quitButton.addActionListener(e -> {
+            myFrame.dispose();
+            pout.println("quit");
+            try {
+                ClientChoice myChoice = new ClientChoice(mySocket,index );
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
         quitButton.setForeground(new Color(255, 255, 255));
         quitButton.setBackground(new Color(0,0,0));
 

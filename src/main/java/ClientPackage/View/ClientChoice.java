@@ -73,7 +73,8 @@ public class ClientChoice {
         {
             pout.println("0");
             try {
-                myProgram = new Spotify_Controller(mySocket);
+                myFrame.dispose();
+                myProgram = new Spotify_Controller(mySocket,index);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             } catch (LineUnavailableException lineUnavailableException) {

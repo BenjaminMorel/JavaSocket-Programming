@@ -1,12 +1,14 @@
 package ServeurPackage.Serveur;
 
 import ClientPackage.Model.ClientModel;
+import ServeurPackage.Serveur.Log.ServerLogging;
 
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class ClientHandler implements Runnable {
 
@@ -15,30 +17,26 @@ public class ClientHandler implements Runnable {
     private ArrayList<ClientModel> connectedClients;
     private int wantedClient = -2;
     private int index;
+    private ServerLogging myLogger;
     //Constructor
-    public ClientHandler(Socket clientSocketOnServer,int index)
-    {
+    public ClientHandler(Socket clientSocketOnServer,int index) throws IOException {
         this.clientSocketOnServer = clientSocketOnServer;
         this.connectedClients = Server.connectedClients;
         this.index = index;
+         myLogger = new ServerLogging();
 
     }
     //overwrite the thread run()
     public void run() {
-        System.out.println("-----------------------------------");
-        System.out.println("Socket is available for connection" + clientSocketOnServer);
-        System.out.println("-----------------------------------");
 
         try {
             PrintWriter pout = new PrintWriter(clientSocketOnServer.getOutputStream(), true);
             BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocketOnServer.getInputStream()));
 
-            //the server send the index of the client inside the array list
+            //the serveur send the number of connected client to the client
 
             while(wantedClient == -2 ) {
 
-
-                //the serveur send the number of connected client to the client
                 pout.println(connectedClients.size());
                 //The server send every client information to the other client
                 for (int i = 0; i < connectedClients.size(); i++) {
@@ -46,17 +44,16 @@ public class ClientHandler implements Runnable {
                     pout.println(connectedClients.get(i).getclientName());
                     pout.println(connectedClients.get(i).getIPClient());
                 }
-
                 int wantedClient = Integer.parseInt(buffin.readLine());
                 if (wantedClient == -1) {
                     updateConnectedClientValue();
                     wantedClient = -2;
                 } else {
-                    System.out.println(wantedClient + " choix du client");
+                    System.out.println("Enter the page song");
+
                         File RootDirectory = new File("D:\\Spotify");
                         File[] allSong = RootDirectory.listFiles();
 
-                        System.out.println("Sending number of song");
                         pout.println(allSong.length);
 
                         for (File song : allSong) {
@@ -64,10 +61,12 @@ public class ClientHandler implements Runnable {
                         }
 
                         while (IsStillRunning) {
-                            System.out.println("Waiting for song name");
                             String fileName = buffin.readLine();
-                            System.out.println("Song name is : " + fileName);
-
+                            if(fileName.equals("quit")){
+                                System.out.println("quit received");
+                                IsStillRunning= false;
+                                break;
+                            }
 
                             File songToPlay = new File(RootDirectory + "\\" + fileName);
 
@@ -84,24 +83,18 @@ public class ClientHandler implements Runnable {
 
                             os = clientSocketOnServer.getOutputStream();
 
-                            System.out.println("Server will send the song");
-                            System.out.println(clientSocketOnServer.getOutputStream());
-                            System.out.println(myByteArray.length + " longeur song");
                             os.write(myByteArray, 0, myByteArray.length);
                             os.flush();
-                            System.out.println("SERVER HAS SEND THE SONG");
                         }
 
-              //          System.out.println("Now dying client " + clientNumber);
-                        clientSocketOnServer.close();
-                        pout.close();
-
-
+                    System.out.println("out of the while running");
+                        wantedClient = -2;
                     // créer boucle while qui termine l'envoie quand on lui dit et qui se remet en mode écoute
                 }
             }
 
             } catch(SocketException e){
+            myLogger.getMyLogger().log(Level.INFO,"Client " + connectedClients.get(index).getclientName() + " has closed his connection to the server","Client " + connectedClients.get(index).getclientName() + " has closed his connection to the server");
                 connectedClients.get(index).setConnected(false);
                 Server.Save();
             try {

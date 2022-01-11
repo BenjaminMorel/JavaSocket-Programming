@@ -28,12 +28,12 @@ public class Spotify_Controller {
     private int actualSong;
     private ArrayList<JButton> allSongButton;
 
-    public Spotify_Controller(Socket mySocket) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    public Spotify_Controller(Socket mySocket,int index) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         this.mySocket = mySocket;
         this.buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         this.pout = new PrintWriter(mySocket.getOutputStream(), true);
         this.is = new BufferedInputStream(mySocket.getInputStream());
-        mainPage = new MainPage();
+        mainPage = new MainPage(mySocket,index);
 
         setAllbuttonNameAndAction();
     }
@@ -65,7 +65,6 @@ public class Spotify_Controller {
     }
 
     public void actionForTheButton(JButton songButton,int position) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        System.out.println(songButton.getText());
         pout.println(songButton.getText());
         actualSong = position;
         songPage = new SongPage2(is,songButton.getText(),position);
