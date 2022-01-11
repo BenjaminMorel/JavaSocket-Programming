@@ -1,91 +1,43 @@
 # Java Socket Programming Project
 
+## Technical Documentation
+
+The project is seperated in two main packages : the client and the server.
+
+**Server-side**
+
+- The server starts on port 45000, interface "wlan0"
+- The server always listen to connections, while the server socket remains open
+- The server manages multi-threading with our "ClientHandler" Class
+- The different clients are identified by an IP Address
+- The server is able to serialise into a JSON file in order to save all the connected clients 
+- The server save logs for the connections and disconnections, and also severe logs when crashing
+
+**Client-side**
+
+- The client can connect from any operating system
+- The client exchange information about the connection and his name with the server in our "ClientForThread" Class
+- A client is defined by an IP Address, a name, and a boolean status if he is connected
+- The "AudioPlayer" Class allows the client to listen to music, using an AudioInputStream, and using the clip Class
+- The client can interact with songs and different options, such as playing/pausing, move forward/backward or increase/decrease volume
 
 
-## Getting started
+## User Guide 
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+**Create your own .jar file**
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+You can clone the project from the Git repository. Then you need too open the root directory in IntelliJ to see the two modules (Client and Server). Go to the Maven panel (on the right) and click to Lifecycle/package to build the .jar. 
 
-## Add your files
+The file will be created in the target directory (Client/target and Server/target) you need to do this process for both
+module. If you want to change the setting you can go to each pom.xml file and adapte as you want (not below Compiler 7).
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/Benjamin_Morel/java-socket-programming-project.git
-git branch -M main
-git push -uf origin main
-```
+**Use the .jar provided in the Git repository** 
 
-## Integrate with your tools
+You have two .jar (one for the Client and one for Server). The server is made to run on a Linux machine, the client can be run from any OS you want. On the linux machine where you put the server you need to create a directory "/VSfy" and an other one "/VSfy/MyMusic". The second directory is the one where you will add your song. The server will create a JSON file on the source directory ("VSfy") with all client stored inside. 
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/integrations/)
+Your Linux need to have a Java JDK greater or equal to 11 to be able to run it (if it's not the case run the following command "sudo apt install default-jdk") 
 
-## Collaborate with your team
+Now the server is ready to run, you can put the .jar file where you want on the linux system and run "java -jar FILE.jar" the server will start. You can start a client from whatever devices you want.
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://docs.gitlab.com/ee/user/clusters/agent/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:20034f590a2e56eaabd6ab83af36ea36?https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+The application first page shows you the list of the clients existing on the server (identified by an IP Address). A refresh button is at the bottom of the page to refresh state of connexion with other users. The music button brings you to the page where all song inside /MyMusic are stored. You can click on them to play the song. The server create a LOG file on the "/VSfy" directory, a new file is created each month.
