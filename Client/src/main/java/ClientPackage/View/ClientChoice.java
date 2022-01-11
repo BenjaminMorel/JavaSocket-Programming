@@ -18,6 +18,9 @@ public class ClientChoice {
     private JButton refreshButton;
     private Spotify_Controller myProgram;
 
+    private ImageIcon connectedImage = new ImageIcon("src/main/java/ClientPackage/Images/connected.png");
+    private ImageIcon disconnectedImage = new ImageIcon("src/main/java/ClientPackage/Images/disconnected.png");
+
     private int index;
     private int sizeClientList;
     private ArrayList<ClientModel> connectedClient = new ArrayList<>();
@@ -45,25 +48,37 @@ public class ClientChoice {
         myFrame.setSize(500,500);
         myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setLayout(new GridLayout(connectedClient.size()+2,1));
+        myFrame.setLayout(new GridLayout(connectedClient.size()+5,1));
 
-        musicButton = new JButton("My music");
+        musicButton = new JButton("Listen to music");
         myFrame.add(musicButton);
 
-        for(int i = 0; i < connectedClient.size(); i++){
-            JLabel  myLabel = new JLabel(connectedClient.get(i).getclientName() + " | " + connectedClient.get(i).getIPClient());
-            myLabel.setOpaque(true);
-            if(i != index){
-                if(connectedClient.get(i).getIsConnected()){
-                    myLabel.setBackground(Color.GREEN);
-                }else{
-                    myLabel.setBackground(Color.red);
-                }
-            }else{
-                myLabel.setBackground(Color.BLUE);
+        JLabel labelAllUsers = new JLabel("List of users");
+        labelAllUsers.setFont(new Font("Android", Font.BOLD, 20));
+        myFrame.add(labelAllUsers);
 
+        for(int i = 0; i < connectedClient.size(); i++){
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            JLabel myLabel = new JLabel(connectedClient.get(i).getclientName() + "  -  " + connectedClient.get(i).getIPClient());
+//            JLabel clientStatus = new JLabel();
+
+            if (i != index){
+                if(connectedClient.get(i).getIsConnected()){
+//                    clientStatus = new JLabel(connectedImage);
+                    myLabel.setForeground(Color.green);
+                } else{
+//                    clientStatus = new JLabel(disconnectedImage);
+                    myLabel.setForeground(Color.red);
+                }
+            } else{
+                myLabel.setOpaque(true);
+                myLabel.setBackground(Color.black);
+                myLabel.setForeground(Color.white);
             }
-            myFrame.add(myLabel);
+//            panel.add(clientStatus);
+            panel.add(myLabel);
+            myFrame.add(panel);
         }
 
         refreshButton = new JButton("Refresh");
