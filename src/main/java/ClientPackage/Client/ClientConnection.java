@@ -6,7 +6,6 @@ class Client1 {
         client.RunClientForThread();
     }
 }
-
 class Client2 {
     public static void main(String[] args) {
         ClientForThread client = new ClientForThread();
