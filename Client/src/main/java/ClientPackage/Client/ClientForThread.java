@@ -18,9 +18,8 @@ public class ClientForThread {
     }
 
      public void RunClientForThread(){
-         System.out.println("New ClientPackage.Client created");
          InetAddress serverAddress;
-         String serverName = "127.0.0.1";
+         String serverName = "192.168.137.46";
 
          try {
              serverAddress = InetAddress.getByName(serverName);

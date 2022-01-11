@@ -1,7 +1,6 @@
-package ServeurPackage.Serveur;
+package Serveur;
 
-import ClientPackage.Model.ClientModel;
-import ServeurPackage.Serveur.Log.ServerLogging;
+import Serveur.Log.ServerLogging;
 
 import java.io.*;
 import java.net.*;
@@ -51,9 +50,10 @@ public class ClientHandler implements Runnable {
                 } else {
                     System.out.println("Enter the page song");
 
-                        File RootDirectory = new File("D:\\Spotify");
+                        File RootDirectory = new File("/ServerSocket/MyMusic");
                         File[] allSong = RootDirectory.listFiles();
 
+                    System.out.println("The serveur find " + allSong.length + " song");
                         pout.println(allSong.length);
 
                         for (File song : allSong) {
@@ -68,9 +68,9 @@ public class ClientHandler implements Runnable {
                                 break;
                             }
 
-                            File songToPlay = new File(RootDirectory + "\\" + fileName);
+                            File songToPlay = new File(RootDirectory + "/" + fileName);
 
-                            long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
+                            long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
 
                             byte[] myByteArray = new byte[(int) size];
 

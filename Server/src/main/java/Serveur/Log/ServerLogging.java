@@ -1,4 +1,4 @@
-package ServeurPackage.Serveur.Log;
+package Serveur.Log;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
@@ -28,7 +28,7 @@ public class ServerLogging {
         String month = monthName[cal.get(Calendar.MONTH)];
 
         System.out.println(month);
-        myFileHandler = new FileHandler(  month + ".log",true);
+        myFileHandler = new FileHandler(  "/ServerSocket/" + month + ".log",true);
 
         myLogger.addHandler(myFileHandler);
         SimpleFormatter formatter = new SimpleFormatter();

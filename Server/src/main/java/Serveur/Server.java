@@ -1,27 +1,25 @@
-package ServeurPackage.Serveur;
+package Serveur;
 
-import ClientPackage.Model.ClientModel;
-import ServeurPackage.Serveur.Log.ServerLogging;
-import ServeurPackage.Serveur.Storable.JSONStorage;
+import Serveur.Storable.JSONStorage;
+import Serveur.Log.ServerLogging;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server {
 
     public static ArrayList<ClientModel> connectedClients = new ArrayList<>();
     public static JSONStorage storage = new JSONStorage();
-    public static File rootFile = new File("D:\\myFile.json");
+    public static File rootFile = new File("/ServerSocket/myFile.json");
 
     public static void main(String[] args) throws IOException {
 
         ServerSocket mySkServer;
         InetAddress localAddress = null;
-        String interfaceName = "lo";
+        String interfaceName = "wlan0";
         ServerLogging myLogger = new ServerLogging();
 
         try {
@@ -63,8 +61,8 @@ public class Server {
 
                     String clientIP = clientSocket.getInetAddress().toString();
                     for(int i = 0; i< connectedClients.size(); i++){
-                        if(connectedClients.get(i).getIPClient().equals(clientIP) && connectedClients.get(i).getclientName().equals(clientName)){
-                      //      connectedClients.get(i).setClientName(clientName);
+                        if(connectedClients.get(i).getIPClient().equals(clientIP)){
+                            connectedClients.get(i).setClientName(clientName);
                             connectedClients.get(i).setConnected(true);
                             IsOnList = true;
                             index = i;

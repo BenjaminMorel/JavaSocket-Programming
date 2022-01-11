@@ -1,6 +1,6 @@
-package ServeurPackage.Serveur.Storable;
+package Serveur.Storable;
 
-import ClientPackage.Model.ClientModel;
+import Serveur.ClientModel;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
