@@ -13,7 +13,6 @@ import javax.swing.*;
 
 public class ClientForThread {
 
-    private int nbConnectedClient;
     private ArrayList<ClientModel> connectedClient = new ArrayList<>();
 
     public ClientForThread(){
@@ -30,9 +29,9 @@ public class ClientForThread {
              BufferedReader buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
              PrintWriter pout = new PrintWriter(mySocket.getOutputStream(), true);
 
-             // server send a message to ask us to write our name
+             //The server sends a message to the client to ask him to write his name
 
-            creatNameInput(pout);
+            createNameInput(pout);
 
              int index = Integer.parseInt(buffin.readLine());
              //Create the first graphic page with all disponible client
@@ -43,9 +42,9 @@ public class ClientForThread {
              while(IsPlaying){
 
              }
-
              System.out.println("\nMessage read. Now dying...");
              mySocket.close();
+
          }catch (UnknownHostException e) {
              e.printStackTrace();
          }catch (ConnectException e) {
@@ -54,7 +53,12 @@ public class ClientForThread {
              e.printStackTrace();
          }
      }
-     public void creatNameInput(PrintWriter pout){
+
+    /**
+     * First graphical part of the application where it requires the user to write his name
+     * @param pout
+     */
+     public void createNameInput(PrintWriter pout){
         JFrame myFrame =new JFrame();
         JTextField yourName =new JTextField();
         JLabel myLabel = new JLabel("Enter your name :");
@@ -62,7 +66,6 @@ public class ClientForThread {
         myFrame.setLayout(new FlowLayout());
 
         yourName.setColumns(10);
-
 
         myFrame.setVisible(true);
         myFrame.setSize(150,150);
@@ -76,8 +79,6 @@ public class ClientForThread {
              pout.println(yourName.getText());
              myFrame.dispose();
          });
-
-
      }
 }
 

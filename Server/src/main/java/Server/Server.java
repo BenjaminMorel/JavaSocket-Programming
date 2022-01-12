@@ -14,7 +14,7 @@ public class Server {
     public static ArrayList<ClientModel> connectedClients = new ArrayList<>();
     public static JSONStorage storage = new JSONStorage();
     public static File rootFile = new File("/VSfy/myFile.json");
-    public static final  String TEXT_RESET = "\u001B[0m";
+    public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_RED = "\u001B[31m";
     public static final String TEXT_CYAN = "\u001B[36m";
     public static final String TEXT_GREEN = "\u001B[32m";
@@ -43,8 +43,7 @@ public class Server {
 
             mySkServer = new ServerSocket(45000, 10, localAddress);
             mySkServer.setSoTimeout(500000);
-            //Ajouter log serveur UP
-            System.out.println(TEXT_CYAN + "Listening to Port: " + mySkServer.getLocalPort() + TEXT_RESET);
+                       System.out.println(TEXT_CYAN + "Listening to Port: " + mySkServer.getLocalPort() + TEXT_RESET);
 
             //Load JSON File and create array list of ClientModel
             Read();

@@ -1,6 +1,6 @@
 package Client.View;
 
-import Client.SpotifyController.AudioPlayer;
+import Client.Controller.AudioPlayer;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -11,47 +11,38 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SongPage2 {
+public class SongPage {
 
     //Icon element
-    private ImageIcon play_Image;
-    private ImageIcon pause_Image;
-    private ImageIcon next_Image;
-    private ImageIcon previous_Image;
-    private ImageIcon music_Image;
+    private ImageIcon play_Image, pause_Image, next_Image, previous_Image, music_Image;
     private JLabel label_Image,songName;
     private JPanel song_Panel, btns_Panel;
 
-
     //GUI elements
     private JFrame myFrame;
-    private JButton changeStateButton, next_Button, previous_Button, backButton;
-    private JButton volume_Up, volume_Down;
-    private JSlider time_Slider, volume_Slider;
+    private JButton changeStateButton, next_Button, previous_Button, backButton, volume_Up, volume_Down;
+    private JSlider time_Slider;
 
-    // song playing
+    //Song playing
     private AudioPlayer player;
 
     //Data element
-    private boolean IsPlaying;
-    private boolean IsSliderSizeCorrect = false;
+    private boolean IsPlaying, IsSliderSizeCorrect = false;
     private Timer myTimer;
-    private int postionSong;
 
-    public SongPage2(InputStream is,String songName,int position) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public SongPage(InputStream is, String songName) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         setAllGUIPart(songName);
-        postionSong = position;
         IsPlaying = true;
 
-        // add event to all button
+        //Add events to all buttons
         backButton.addActionListener(e -> {
             myFrame.dispose();
             player.pause();
             player = null;
         });
 
-        // button to change from play to pause and pause to play
+        //Button to change from play to pause and pause to play
         changeStateButton.addActionListener(e -> changeSongStatus());
         volume_Down.addActionListener(e -> diminueVolume());
         volume_Up.addActionListener(e -> increaseVolume());
@@ -64,7 +55,6 @@ public class SongPage2 {
                     IsSliderSizeCorrect = true;
                     System.out.println(((int)player.getSongLength()) + " longeur song");
                 }
-//                System.out.println((int) player.getCurrentFrame() + " position dans le song !");
                 time_Slider.setValue((int)player.getCurrentFrame());
             }
         });
@@ -77,10 +67,10 @@ public class SongPage2 {
     }
 
     public void setAllGUIPart(String name){
+
         //Creation of the UI Objects
         myFrame = new JFrame();
         time_Slider = new JSlider(0,0,0);
-        volume_Slider = new JSlider(0,10,5);
         songName = new JLabel(name);
         song_Panel = new JPanel();
         btns_Panel = new JPanel();
@@ -91,7 +81,7 @@ public class SongPage2 {
         myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create all the icon for the graphics part
+        //Creation of all the icons for the graphic parts
         play_Image = new ImageIcon(ClassLoader.getSystemResource("Images/play.png"));
         pause_Image = new ImageIcon(ClassLoader.getSystemResource("Images/pause.png"));
         next_Image = new ImageIcon(ClassLoader.getSystemResource("Images/next.png"));
@@ -99,7 +89,7 @@ public class SongPage2 {
         music_Image = new ImageIcon(ClassLoader.getSystemResource("Images/music.jpg"));
         label_Image = new JLabel(music_Image);
 
-        //Create JButton to interact with the page
+        //Creation of JButtons to interact with the page
         changeStateButton = new JButton(pause_Image);
         next_Button = new JButton(next_Image);
         previous_Button = new JButton(previous_Image);
@@ -135,9 +125,7 @@ public class SongPage2 {
         btns_Panel.setPreferredSize(new Dimension(500, 80));
         myFrame.add(btns_Panel);
 
-        //Setup of the volume slider
         myFrame.add(volume_Down);
-        myFrame.add(volume_Slider);
         myFrame.add(volume_Up);
 
         myFrame.add(backButton);

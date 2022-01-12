@@ -1,6 +1,6 @@
 package Client.View;
 
-import Client.SpotifyController.Spotify_Controller;
+import Client.Controller.AudioController;
 import Client.Model.ClientModel;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -19,9 +19,8 @@ public class ClientChoice {
     private JFrame myFrame;
     private JButton musicButton;
     private JButton refreshButton;
+    private AudioController myProgram;
     private JButton uploadButton;
-    private Spotify_Controller myProgram;
-
 
     private int index;
     private int sizeClientList;
@@ -99,7 +98,7 @@ public class ClientChoice {
             pout.println("0");
             try {
                 myFrame.dispose();
-                myProgram = new Spotify_Controller(mySocket,index);
+                myProgram = new AudioController(mySocket,index);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             } catch (LineUnavailableException lineUnavailableException) {

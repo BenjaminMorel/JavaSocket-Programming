@@ -1,8 +1,7 @@
-package Client.SpotifyController;
+package Client.Controller;
 
 import Client.View.MainPage;
-import Client.View.SongPage2;
-
+import Client.View.SongPage;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
@@ -10,7 +9,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Spotify_Controller {
+public class AudioController {
 
     //Used to communicate with the server
     private BufferedReader buffin;
@@ -21,14 +20,14 @@ public class Spotify_Controller {
 
     //GUI Part
     private MainPage mainPage;
-    private SongPage2 songPage;
+    private SongPage songPage;
 
     //Data elements
     private int numberOfSong;
     private int actualSong;
     private ArrayList<JButton> allSongButton;
 
-    public Spotify_Controller(Socket mySocket,int index) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    public AudioController(Socket mySocket, int index) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         this.mySocket = mySocket;
         this.buffin = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         this.pout = new PrintWriter(mySocket.getOutputStream(), true);
@@ -78,7 +77,7 @@ public class Spotify_Controller {
     public void actionForTheButton(JButton songButton,int position) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         pout.println(songButton.getText());
         actualSong = position;
-        songPage = new SongPage2(is,songButton.getText(),position);
+        songPage = new SongPage(is,songButton.getText());
         JButton next_button = songPage.getNext_Button();
         JButton previous_button = songPage.getPrevious_Button();
 
@@ -125,7 +124,7 @@ public class Spotify_Controller {
         AudioPlayer player = songPage.getPlayer();
         JFrame songpageFrame = songPage.getMyFrame();
         songpageFrame.dispose();
-        player.pause();
+        player.changeStatus();
         player = null;
         actionForTheButton(allSongButton.get(positionNextSong),positionNextSong);
     }

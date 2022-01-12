@@ -21,7 +21,6 @@ public class MainPage extends JFrame{
     private Socket mySocket;
     private int index;
 
-
     public MainPage(Socket mySocket,int index) throws IOException {
         myFrame = new JFrame();
         myFrame.setVisible(true);
@@ -32,16 +31,18 @@ public class MainPage extends JFrame{
         pout = new PrintWriter(mySocket.getOutputStream(), true);
 
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
-    //Method to receive an array list of Jbutton and add each one in the page
+    /**
+     * Method to receive an array list of JButtons and add each one in the page
+     * @param allSongButton
+     */
     public void setAllButton(ArrayList<JButton> allSongButton){
 
         this.allSongButton = allSongButton;
 
         //Setting the layout to number of song +1 for the quit button
-        myFrame.setLayout(new GridLayout(allSongButton.size()+1,1));
+        myFrame.setLayout(new GridLayout(allSongButton.size()/2+1,2));
 
         for(int i = 0; i < allSongButton.size(); i++){
             myFrame.add(allSongButton.get(i));

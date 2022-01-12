@@ -21,20 +21,8 @@ public class ClientModel {
         return isConnected;
     }
 
-    public void setConnected(boolean IsConnected) {
-        this.isConnected = IsConnected;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
     public String getclientName() {
         return clientName;
-    }
-
-    public void setIPClient(String IPClient) {
-        this.IPClient = IPClient;
     }
 
     public String getIPClient() {
