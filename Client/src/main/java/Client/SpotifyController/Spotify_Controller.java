@@ -84,7 +84,11 @@ public class Spotify_Controller {
 
         next_button.addActionListener(e -> {
             try {
-                nextAndPreviousButton(position+1);
+                if (position+1 >= numberOfSong){
+                    nextAndPreviousButton(0);
+                }else {
+                    nextAndPreviousButton(position + 1);
+                }
             } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
                 unsupportedAudioFileException.printStackTrace();
             } catch (IOException ioException) {
@@ -95,7 +99,11 @@ public class Spotify_Controller {
         });
         previous_button.addActionListener(e -> {
             try {
-                nextAndPreviousButton(position-1);
+                if(position-1 < 0){
+                    nextAndPreviousButton(allSongButton.size()-1);
+                }else {
+                    nextAndPreviousButton(position - 1);
+                }
             } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
                 unsupportedAudioFileException.printStackTrace();
             } catch (IOException ioException) {

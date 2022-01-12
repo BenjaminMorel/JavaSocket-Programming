@@ -27,7 +27,6 @@ public class SongPage2 {
     private JFrame myFrame;
     private JButton changeStateButton, next_Button, previous_Button, backButton;
     private JButton volume_Up, volume_Down;
-    private JButton downLoadButton;
     private JSlider time_Slider, volume_Slider;
 
     // song playing
@@ -104,7 +103,6 @@ public class SongPage2 {
         changeStateButton = new JButton(pause_Image);
         next_Button = new JButton(next_Image);
         previous_Button = new JButton(previous_Image);
-        downLoadButton = new JButton("DownLoad");
         backButton = new JButton("Back");
         volume_Up = new JButton("+");
         volume_Down = new JButton("-");
@@ -143,7 +141,6 @@ public class SongPage2 {
         myFrame.add(volume_Up);
 
         myFrame.add(backButton);
-        myFrame.add(downLoadButton);
     }
 
     public void changeSongStatus(){

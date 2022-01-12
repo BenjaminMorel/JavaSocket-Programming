@@ -60,8 +60,8 @@ public class ClientHandler implements Runnable {
                     wantedClient = -2;
                 } else {
                         //Path of te file where our musics are stored
-                        File RootDirectory = new File("/ServerSocket/MyMusic");
-                //    File RootDirectory = new File("D:\\Spotify");
+                //        File RootDirectory = new File("/VSfy/MyMusic");
+                     File RootDirectory = new File("D:\\Spotify");
                         File[] allSong = RootDirectory.listFiles();
 
                         pout.println(allSong.length);
@@ -78,12 +78,12 @@ public class ClientHandler implements Runnable {
                                 break;
                             }
 
-                           File songToPlay = new File(RootDirectory + "/" + fileName);
-
-                            long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
-//                            File songToPlay = new File(RootDirectory + "\\" + fileName);
+//                           File songToPlay = new File(RootDirectory + "/" + fileName);
 //
-//                            long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
+//                            long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
+                           File songToPlay = new File(RootDirectory + "\\" + fileName);
+
+                            long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
 
 
                             byte[] myByteArray = new byte[(int) size];
@@ -114,6 +114,7 @@ public class ClientHandler implements Runnable {
             }
 
         } catch(IOException e){
+            myLogger.getMyLogger().log(Level.SEVERE,"============ERROR============" + e);
                 e.printStackTrace();
             }
     }

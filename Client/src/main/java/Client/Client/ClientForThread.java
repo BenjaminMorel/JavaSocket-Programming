@@ -1,5 +1,6 @@
 package Client.Client;
 
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.Scanner;
 
 import Client.Model.ClientModel;
 import Client.View.*;
+
+import javax.swing.*;
 
 public class ClientForThread {
 
@@ -20,7 +23,7 @@ public class ClientForThread {
      public void RunClientForThread(){
          InetAddress serverAddress;
         // String serverName = "192.168.137.46";
-         String serverName ="192.168.137.46";
+         String serverName ="127.0.0.1";
 
          try {
              serverAddress = InetAddress.getByName(serverName);
@@ -31,9 +34,10 @@ public class ClientForThread {
              // server send a message to ask us to write our name
              System.out.println(buffin.readLine());
              Scanner scan = new Scanner(System.in);
-             String name = scan.nextLine();
+          //   String name = scan.nextLine();
 
-             pout.println(name);
+            creatNameInput(pout);
+         //    pout.println(name);
              System.out.println("name is send");
 
              int index = Integer.parseInt(buffin.readLine());
@@ -56,7 +60,31 @@ public class ClientForThread {
              e.printStackTrace();
          }
      }
+     public void creatNameInput(PrintWriter pout){
+        JFrame myFrame =new JFrame();
+        JTextField yourName =new JTextField();
+        JLabel myLabel = new JLabel("Enter your name :");
+        JButton sendName = new JButton("Send");
+        myFrame.setLayout(new FlowLayout());
 
+        yourName.setColumns(10);
+
+
+        myFrame.setVisible(true);
+        myFrame.setSize(150,150);
+        myFrame.setLocationRelativeTo(null);
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.add(myLabel);
+        myFrame.add(yourName);
+        myFrame.add(sendName);
+
+         sendName.addActionListener(e -> {
+             pout.println(yourName.getText());
+             myFrame.dispose();
+         });
+
+
+     }
 }
 
 

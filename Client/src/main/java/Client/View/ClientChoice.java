@@ -48,7 +48,7 @@ public class ClientChoice {
         myFrame.setSize(500,500);
         myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setLayout(new GridLayout(connectedClient.size()+5,1));
+        myFrame.setLayout(new GridLayout(connectedClient.size()+4,1));
 
         musicButton = new JButton("Listen to music");
         myFrame.add(musicButton);
@@ -60,15 +60,12 @@ public class ClientChoice {
         for(int i = 0; i < connectedClient.size(); i++){
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout());
-            JLabel myLabel = new JLabel(connectedClient.get(i).getclientName() + "  -  " + connectedClient.get(i).getIPClient());
-//            JLabel clientStatus = new JLabel();
-
+            JLabel myLabel = new JLabel(connectedClient.get(i).getclientName() + "  -  " + connectedClient.get(i).getIPClient().substring(1));
+            myLabel.setFont(new Font("Android",Font.PLAIN, 16));
             if (i != index){
                 if(connectedClient.get(i).getIsConnected()){
-//                    clientStatus = new JLabel(connectedImage);
                     myLabel.setForeground(Color.green);
                 } else{
-//                    clientStatus = new JLabel(disconnectedImage);
                     myLabel.setForeground(Color.red);
                 }
             } else{
@@ -76,12 +73,12 @@ public class ClientChoice {
                 myLabel.setBackground(Color.black);
                 myLabel.setForeground(Color.white);
             }
-//            panel.add(clientStatus);
             panel.add(myLabel);
             myFrame.add(panel);
         }
 
         refreshButton = new JButton("Refresh");
+        myFrame.add(new JLabel());
         myFrame.add(refreshButton);
 
         musicButton.addActionListener(e ->
