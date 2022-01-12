@@ -43,6 +43,7 @@ public class ClientHandler implements Runnable {
 
             //The server sends the number of connected client to the client
             while(wantedClient == -2 ) {
+                IsStillRunning = true;
                 pout.println(connectedClients.size());
 
                 //The server sends every client information to the other client
@@ -58,12 +59,11 @@ public class ClientHandler implements Runnable {
                     updateConnectedClientValue();
                     wantedClient = -2;
                 } else {
-                    System.out.println("Enter the page song");
                         //Path of te file where our musics are stored
                         File RootDirectory = new File("/ServerSocket/MyMusic");
+                //    File RootDirectory = new File("D:\\Spotify");
                         File[] allSong = RootDirectory.listFiles();
 
-                    System.out.println("The serveur find " + allSong.length + " song");
                         pout.println(allSong.length);
 
                         for (File song : allSong) {
@@ -73,14 +73,18 @@ public class ClientHandler implements Runnable {
                         while (IsStillRunning) {
                             String fileName = buffin.readLine();
                             if(fileName.equals("quit")){
-                                System.out.println("quit received");
                                 IsStillRunning= false;
+                                wantedClient = -2;
                                 break;
                             }
 
-                            File songToPlay = new File(RootDirectory + "/" + fileName);
+                           File songToPlay = new File(RootDirectory + "/" + fileName);
 
                             long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
+//                            File songToPlay = new File(RootDirectory + "\\" + fileName);
+//
+//                            long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
+
 
                             byte[] myByteArray = new byte[(int) size];
 
@@ -94,14 +98,12 @@ public class ClientHandler implements Runnable {
                             os.write(myByteArray, 0, myByteArray.length);
                             os.flush();
                         }
-
-                    System.out.println("out of the while running");
-                        wantedClient = -2;
                     // créer boucle while qui termine l'envoie quand on lui dit et qui se remet en mode écoute
                 }
             }
 
             } catch(SocketException e){
+            System.out.println(Server.TEXT_RED + connectedClients.get(index).getclientName() + " with IP " + connectedClients.get(index).getIPClient() + " has closed his connection to the server" + Server.TEXT_RESET);
             myLogger.getMyLogger().log(Level.INFO,"Client " + connectedClients.get(index).getclientName() + " has closed his connection to the server","Client " + connectedClients.get(index).getclientName() + " has closed his connection to the server");
                 connectedClients.get(index).setConnected(false);
                 Server.Save();

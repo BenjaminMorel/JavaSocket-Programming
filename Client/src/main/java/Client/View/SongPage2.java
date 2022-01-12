@@ -93,11 +93,11 @@ public class SongPage2 {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create all the icon for the graphics part
-        play_Image = new ImageIcon("Client/src/main/java/ClientPackage/Images/play.png");
-        pause_Image = new ImageIcon("Client/src/main/java/ClientPackage/Images/pause.png");
-        next_Image = new ImageIcon("Client/src/main/java/ClientPackage/Images/next.png");
-        previous_Image = new ImageIcon("Client/src/main/java/ClientPackage/Images/previous.png");
-        music_Image = new ImageIcon("Client/src/main/java/ClientPackage/Images/music.jpg");
+        play_Image = new ImageIcon(ClassLoader.getSystemResource("Images/play.png"));
+        pause_Image = new ImageIcon(ClassLoader.getSystemResource("Images/pause.png"));
+        next_Image = new ImageIcon(ClassLoader.getSystemResource("Images/next.png"));
+        previous_Image = new ImageIcon(ClassLoader.getSystemResource("Images/previous.png"));
+        music_Image = new ImageIcon(ClassLoader.getSystemResource("Images/music.jpg"));
         label_Image = new JLabel(music_Image);
 
         //Create JButton to interact with the page

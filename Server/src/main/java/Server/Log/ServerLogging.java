@@ -23,7 +23,6 @@ public class ServerLogging {
         Calendar cal = Calendar.getInstance();
         String month = monthName[cal.get(Calendar.MONTH)];
 
-        System.out.println(month);
         myFileHandler = new FileHandler(  month + ".log",true);
 
         myLogger.addHandler(myFileHandler);

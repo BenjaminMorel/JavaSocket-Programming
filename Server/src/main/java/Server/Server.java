@@ -13,13 +13,20 @@ public class Server {
 
     public static ArrayList<ClientModel> connectedClients = new ArrayList<>();
     public static JSONStorage storage = new JSONStorage();
-    public static File rootFile = new File("/ServerSocket/myFile.json");
+    public static File rootFile = new File("/VSfy/myFile.json");
+   //public static File rootFile = new File("D:\\myFile.json");
+    public static final  String TEXT_RESET = "\u001B[0m";
+    public static final String TEXT_RED = "\u001B[31m";
+    public static final String TEXT_CYAN = "\u001B[36m";
+    public static final String TEXT_GREEN = "\u001B[32m";
+    public static final String TEXT_WHITE = "\u001B[37m";
 
     public static void main(String[] args) throws IOException {
 
         ServerSocket mySkServer;
         InetAddress localAddress = null;
         String interfaceName = "wlan0";
+//        String interfaceName = "lo";
         ServerLogging myLogger = new ServerLogging();
 
         try {
@@ -31,16 +38,15 @@ public class Server {
 
                 if (!ia.isLinkLocalAddress()) {
                     if (!ia.isLoopbackAddress()) {
-                        System.out.println(ni.getName() + "->IP: " + ia.getHostAddress());
                         localAddress = ia;
                     }
                 }
             }
 
             mySkServer = new ServerSocket(45000, 10, localAddress);
-
+            mySkServer.setSoTimeout(10000);
             //Ajouter log serveur UP
-            System.out.println("Listening to Port: " + mySkServer.getLocalPort());
+            System.out.println(TEXT_CYAN + "Listening to Port: " + mySkServer.getLocalPort() + TEXT_RESET);
 
             //Load JSON File and create array list of ClientModel
             Read();
@@ -86,13 +92,13 @@ public class Server {
             }
 
         } catch (SocketException e) {
-            System.out.println("Connection Timed out");
             //Severe log for exception
             myLogger.getMyLogger().log(Level.SEVERE,"ERROR SEVERE",e);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        myLogger.getMyLogger().log(Level.INFO,"The server Timed Out");
     }
 
     /**
@@ -125,7 +131,7 @@ public class Server {
     public static void displayCurrentUsers(){
         for(ClientModel model : connectedClients){
             if(model.getIsConnected()) {
-                System.out.println(model.getclientName() + " is connected with ip : " + model.getIPClient());
+                System.out.println(TEXT_GREEN + model.getclientName() + " is connected with ip : " + model.getIPClient() + TEXT_RESET);
             }
         }
     }

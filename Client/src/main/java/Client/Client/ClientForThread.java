@@ -19,7 +19,8 @@ public class ClientForThread {
 
      public void RunClientForThread(){
          InetAddress serverAddress;
-         String serverName = "192.168.137.46";
+        // String serverName = "192.168.137.46";
+         String serverName ="192.168.137.46";
 
          try {
              serverAddress = InetAddress.getByName(serverName);
