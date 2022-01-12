@@ -1,10 +1,15 @@
 package Client.View;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class MainPage extends JFrame{
@@ -41,7 +46,6 @@ public class MainPage extends JFrame{
         for(int i = 0; i < allSongButton.size(); i++){
             myFrame.add(allSongButton.get(i));
         }
-
         quitButton = new JButton("Quit");
 
         quitButton.addActionListener(e -> {
@@ -58,5 +62,4 @@ public class MainPage extends JFrame{
 
         myFrame.add(quitButton);
     }
-
 }

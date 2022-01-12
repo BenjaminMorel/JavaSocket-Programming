@@ -22,8 +22,7 @@ public class ClientForThread {
 
      public void RunClientForThread(){
          InetAddress serverAddress;
-        // String serverName = "192.168.137.46";
-         String serverName ="127.0.0.1";
+         String serverName = "192.168.137.46";
 
          try {
              serverAddress = InetAddress.getByName(serverName);
@@ -32,13 +31,8 @@ public class ClientForThread {
              PrintWriter pout = new PrintWriter(mySocket.getOutputStream(), true);
 
              // server send a message to ask us to write our name
-             System.out.println(buffin.readLine());
-             Scanner scan = new Scanner(System.in);
-          //   String name = scan.nextLine();
 
             creatNameInput(pout);
-         //    pout.println(name);
-             System.out.println("name is send");
 
              int index = Integer.parseInt(buffin.readLine());
              //Create the first graphic page with all disponible client

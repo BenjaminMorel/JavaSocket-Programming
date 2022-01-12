@@ -18,6 +18,9 @@ public class ClientHandler implements Runnable {
     private int index;
     private ServerLogging myLogger;
 
+    private BufferedReader buffin;
+    private PrintWriter pout;
+
     /**
      * Constructor of the ClientHandler Class
      * @param clientSocketOnServer
@@ -38,8 +41,8 @@ public class ClientHandler implements Runnable {
     public void run() {
 
         try {
-            PrintWriter pout = new PrintWriter(clientSocketOnServer.getOutputStream(), true);
-            BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocketOnServer.getInputStream()));
+             pout = new PrintWriter(clientSocketOnServer.getOutputStream(), true);
+             buffin = new BufferedReader(new InputStreamReader(clientSocketOnServer.getInputStream()));
 
             //The server sends the number of connected client to the client
             while(wantedClient == -2 ) {
@@ -55,13 +58,16 @@ public class ClientHandler implements Runnable {
 
                 int wantedClient = Integer.parseInt(buffin.readLine());
 
-                if (wantedClient == -1) {
-                    updateConnectedClientValue();
-                    wantedClient = -2;
-                } else {
-                        //Path of te file where our musics are stored
-                //        File RootDirectory = new File("/VSfy/MyMusic");
-                     File RootDirectory = new File("D:\\Spotify");
+                switch (wantedClient){
+                    case -1:
+                        updateConnectedClientValue();
+                        wantedClient = -2;
+                        break;
+                    case 2:
+                        downloadSong();
+                        break;
+                    case 0:    //Path of te file where our musics are stored
+                        File RootDirectory = new File("/VSfy/MyMusic");
                         File[] allSong = RootDirectory.listFiles();
 
                         pout.println(allSong.length);
@@ -78,12 +84,9 @@ public class ClientHandler implements Runnable {
                                 break;
                             }
 
-//                           File songToPlay = new File(RootDirectory + "/" + fileName);
-//
-//                            long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
-                           File songToPlay = new File(RootDirectory + "\\" + fileName);
+                           File songToPlay = new File(RootDirectory + "/" + fileName);
 
-                            long size = Files.size(Paths.get(RootDirectory + "\\" + fileName));
+                            long size = Files.size(Paths.get(RootDirectory + "/" + fileName));
 
 
                             byte[] myByteArray = new byte[(int) size];
@@ -97,9 +100,11 @@ public class ClientHandler implements Runnable {
                             os = clientSocketOnServer.getOutputStream();
                             os.write(myByteArray, 0, myByteArray.length);
                             os.flush();
-                        }
-                    // créer boucle while qui termine l'envoie quand on lui dit et qui se remet en mode écoute
+
+                    }
                 }
+
+
             }
 
             } catch(SocketException e){
@@ -124,5 +129,24 @@ public class ClientHandler implements Runnable {
      */
     public void updateConnectedClientValue(){
         connectedClients = Server.connectedClients;
+    }
+
+    public void downloadSong() throws IOException {
+        String songName = buffin.readLine();
+        int fileSize = Integer.parseInt(buffin.readLine());
+
+        byte[] myByteArray = new byte[fileSize];
+
+        InputStream is = new BufferedInputStream(clientSocketOnServer.getInputStream());
+        FileOutputStream outputfile =  new FileOutputStream("/Vsfy/MyMusic/" + songName);
+        BufferedOutputStream outputBuffer = new BufferedOutputStream(outputfile);
+
+        int byteReadTotal = 0;
+        while(byteReadTotal < fileSize){
+            int byteRead =  is.read(myByteArray,0,myByteArray.length);
+            byteReadTotal += byteRead;
+            System.out.println(byteRead);
+            outputBuffer.write(myByteArray,0,byteRead);
+        }
     }
 }

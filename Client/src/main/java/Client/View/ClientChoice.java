@@ -6,9 +6,12 @@ import Client.Model.ClientModel;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ClientChoice {
@@ -16,10 +19,9 @@ public class ClientChoice {
     private JFrame myFrame;
     private JButton musicButton;
     private JButton refreshButton;
+    private JButton uploadButton;
     private Spotify_Controller myProgram;
 
-    private ImageIcon connectedImage = new ImageIcon("src/main/java/ClientPackage/Images/connected.png");
-    private ImageIcon disconnectedImage = new ImageIcon("src/main/java/ClientPackage/Images/disconnected.png");
 
     private int index;
     private int sizeClientList;
@@ -48,7 +50,7 @@ public class ClientChoice {
         myFrame.setSize(500,500);
         myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setLayout(new GridLayout(connectedClient.size()+4,1));
+        myFrame.setLayout(new GridLayout(connectedClient.size()+5,1));
 
         musicButton = new JButton("Listen to music");
         myFrame.add(musicButton);
@@ -77,8 +79,19 @@ public class ClientChoice {
             myFrame.add(panel);
         }
 
+        uploadButton = new JButton("Upload Song");
+        uploadButton.setBackground(Color.GRAY);
+        uploadButton.addActionListener(e -> {
+            try {
+                uploadNewFile();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+
         refreshButton = new JButton("Refresh");
         myFrame.add(new JLabel());
+        myFrame.add(uploadButton);
         myFrame.add(refreshButton);
 
         musicButton.addActionListener(e ->
@@ -109,4 +122,45 @@ public class ClientChoice {
 
         });
     }
+
+    public void uploadNewFile() throws IOException {
+
+        JFileChooser myFileChooser = new JFileChooser();
+
+        myFileChooser.setAcceptAllFileFilterUsed(false);
+        myFileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if(f != null && f.isDirectory()){
+                    return true;
+                }
+                if(f != null && !f.getName().toUpperCase().endsWith(".WAV")){
+                    return false;
+                }
+                return  true;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+        });
+
+        myFileChooser.showOpenDialog(myFrame);
+        File songToUpload = myFileChooser.getSelectedFile();
+        long fileSize = Files.size(Paths.get(songToUpload.getPath()));
+        pout.println("2");
+        pout.println(songToUpload.getName());
+        pout.println(fileSize);
+
+        byte [] myByteArray = new byte[(int)fileSize];
+        BufferedInputStream inputBuffer = new BufferedInputStream(new FileInputStream(songToUpload));
+        inputBuffer.read(myByteArray, 0, myByteArray.length);
+        OutputStream os = mySocket.getOutputStream() ;
+        os.write(myByteArray, 0, myByteArray.length);
+        os.flush();
+        ClientChoice myMainPage = new ClientChoice(mySocket, index);
+
+    }
+
 }

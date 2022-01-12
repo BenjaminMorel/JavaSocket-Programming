@@ -13,8 +13,7 @@ public class Server {
 
     public static ArrayList<ClientModel> connectedClients = new ArrayList<>();
     public static JSONStorage storage = new JSONStorage();
- //   public static File rootFile = new File("/VSfy/myFile.json");
-    public static File rootFile = new File("D:\\myFile.json");
+    public static File rootFile = new File("/VSfy/myFile.json");
     public static final  String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_RED = "\u001B[31m";
     public static final String TEXT_CYAN = "\u001B[36m";
@@ -25,8 +24,7 @@ public class Server {
 
         ServerSocket mySkServer;
         InetAddress localAddress = null;
-  //      String interfaceName = "wlan0";
-        String interfaceName = "lo";
+        String interfaceName = "wlan0";
         ServerLogging myLogger = new ServerLogging();
 
         try {
@@ -59,7 +57,6 @@ public class Server {
                 BufferedReader buffin = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter pout = new PrintWriter(clientSocket.getOutputStream(), true);
                 boolean IsOnList = false;
-                    pout.println("Write down your name !");
                     String clientName = buffin.readLine();
                     int index = 0;
 
