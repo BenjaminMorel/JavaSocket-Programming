@@ -17,11 +17,12 @@
 
     </properties>
 
+
     <build>
         <resources>
             <!-- Adding resources directory -->
             <resource>
-                <directory>Client/src/main/resources</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <plugins>

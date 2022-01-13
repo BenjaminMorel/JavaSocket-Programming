@@ -42,7 +42,7 @@ public class MainPage extends JFrame{
         this.allSongButton = allSongButton;
 
         //Setting the layout to number of song +1 for the quit button
-        myFrame.setLayout(new GridLayout(allSongButton.size()/2+1,2));
+        myFrame.setLayout(new GridLayout(allSongButton.size()+1,1));
 
         for(int i = 0; i < allSongButton.size(); i++){
             myFrame.add(allSongButton.get(i));

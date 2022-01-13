@@ -133,20 +133,29 @@ public class ClientHandler implements Runnable {
 
     public void downloadSong() throws IOException {
         String songName = buffin.readLine();
-        int fileSize = Integer.parseInt(buffin.readLine());
-
+        int fileSize =  Integer.parseInt(buffin.readLine());
         byte[] myByteArray = new byte[fileSize];
 
         InputStream is = new BufferedInputStream(clientSocketOnServer.getInputStream());
-        FileOutputStream outputfile =  new FileOutputStream("/Vsfy/MyMusic/" + songName);
+        FileOutputStream outputfile =  new FileOutputStream("/VSfy/MyMusic/" + songName);
         BufferedOutputStream outputBuffer = new BufferedOutputStream(outputfile);
 
-        int byteReadTotal = 0;
-        while(byteReadTotal < fileSize){
-            int byteRead =  is.read(myByteArray,0,myByteArray.length);
-            byteReadTotal += byteRead;
-            System.out.println(byteRead);
-            outputBuffer.write(myByteArray,0,byteRead);
+        try {
+            int byteReadTotal = 0;
+            int byteRead;
+//            while (byteReadTotal < fileSize) {
+//                int byteRead = is.read(myByteArray, 0, myByteArray.length);
+//                outputBuffer.write(myByteArray, byteReadTotal, byteRead);
+//                byteReadTotal += byteRead;
+            for (int read = is.read(myByteArray); read >= 0; read = is.read(myByteArray))
+                outputBuffer.write(myByteArray, 0, read);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            myLogger.getMyLogger().log(Level.SEVERE,"Error while downloading the song " + e);
         }
+
+
+        myLogger.getMyLogger().log(Level.INFO,Server.TEXT_GREEN + songName + " has been add to the song directory" + Server.TEXT_RESET);
     }
 }
